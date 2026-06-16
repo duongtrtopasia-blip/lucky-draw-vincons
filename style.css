@@ -36,71 +36,70 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ── Vincons Banner Royal Blue Theme ── */
-  --navy-900: #080e3a;
-  --navy-800: #0d1566;
-  --navy-700: #1320a0;
-  --navy-600: #1e30c8;
-  --navy-500: #2d44e8;
-  --navy-400: #5570f0;
-  --navy-300: #8aa0f5;
-  --navy-200: #b8c8ff;
-  --navy-100: #d8e2ff;
-  --navy-50:  rgba(255,255,255,0.08);
+  /* ── Vincons Brand Blue ── */
+  --navy-900: #1a2a6c;
+  --navy-800: #213380;
+  --navy-700: #2d4a91;
+  --navy-600: #3d5faf;
+  --navy-500: #5a7dcc;
+  --navy-400: #7a9dde;
+  --navy-300: #a0bdf0;
+  --navy-200: #c8d8f8;
+  --navy-100: #e6eeff;
+  --navy-50:  #f0f4ff;
 
-  /* ── Primary = Vincons Royal Blue ── */
-  --primary:       #1e30c8;
-  --primary-light: #2d44e8;
-  --primary-dark:  #0d1566;
-  --primary-glow:  rgba(30, 48, 200, 0.35);
+  /* ── Primary = Vincons Blue ── */
+  --primary:       #2d4a91;
+  --primary-light: #3d5faf;
+  --primary-dark:  #1a2a6c;
+  --primary-glow:  rgba(45, 74, 145, 0.2);
 
   /* ── Gold accent ── */
-  --gold:       #f5c842;
-  --gold-light: #ffe066;
-  --gold-dark:  #c9a020;
-  --gold-glow:  rgba(245, 200, 66, 0.4);
-  --gold-bg:    rgba(245,200,66,0.08);
+  --gold:       #d4901a;
+  --gold-light: #f0c040;
+  --gold-dark:  #a86c0e;
+  --gold-glow:  rgba(212, 144, 26, 0.25);
+  --gold-bg:    #fef9ec;
 
   /* ── Cyan ── */
-  --cyan:       #00d4ff;
-  --cyan-light: rgba(0,212,255,0.15);
+  --cyan:      #0099cc;
+  --cyan-light: #e0f5ff;
 
   /* ── Success ── */
-  --success:    #00e096;
-  --success-bg: rgba(0,224,150,0.12);
+  --success:    #00875a;
+  --success-bg: #e6f7f0;
 
   /* ── Danger ── */
-  --danger:    #ff4d6d;
-  --danger-bg: rgba(255,77,109,0.12);
+  --danger:    #c0392b;
+  --danger-bg: #fdecea;
 
-  /* ── Dark surfaces (banner-style) ── */
-  --bg-page:     #0a1050;
-  --bg-card:     rgba(13,22,100,0.85);
-  --bg-card-alt: rgba(10,16,80,0.9);
-  --bg-input:    rgba(20,35,140,0.6);
-  --border:      rgba(100,140,255,0.25);
-  --border-blue: rgba(100,140,255,0.35);
-  --border-strong: rgba(245,200,66,0.4);
+  /* ── Light surfaces ── */
+  --bg-page:     #f4f6fb;
+  --bg-card:     #ffffff;
+  --bg-card-alt: #f8faff;
+  --bg-input:    #ffffff;
+  --border:      #dde4f0;
+  --border-blue: rgba(45,74,145,0.2);
+  --border-strong: rgba(45,74,145,0.4);
 
-  /* ── Text (white on dark) ── */
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(200,218,255,0.85);
-  --text-muted:     rgba(160,185,255,0.6);
+  /* ── Text ── */
+  --text-primary:   #0f1e45;
+  --text-secondary: #4a5f8a;
+  --text-muted:     #8a9cc0;
 
-  /* ── Glass (dark) ── */
-  --glass:        rgba(13,22,100,0.7);
-  --glass-border: rgba(100,140,255,0.2);
+  /* ── Glass (light) ── */
+  --glass:        rgba(255,255,255,0.7);
+  --glass-border: rgba(45,74,145,0.12);
 
   /* ── Misc ── */
   --radius:    16px;
   --radius-sm: 8px;
   --radius-xs: 4px;
-  --radius-md: 12px;
-  --shadow-sm:   0 1px 4px rgba(0,0,0,0.3);
-  --shadow-md:   0 4px 16px rgba(0,0,0,0.4);
-  --shadow-lg:   0 8px 32px rgba(0,0,0,0.5);
-  --shadow-blue: 0 4px 20px rgba(30,48,200,0.5);
-  --shadow-gold: 0 4px 20px rgba(245,200,66,0.4);
+  --shadow-sm:   0 1px 4px rgba(45,74,145,0.08);
+  --shadow-md:   0 4px 16px rgba(45,74,145,0.12);
+  --shadow-lg:   0 8px 32px rgba(45,74,145,0.16);
+  --shadow-blue: 0 4px 20px rgba(45,74,145,0.25);
+  --shadow-gold: 0 4px 20px rgba(212,144,26,0.3);
 }
 
 html { scroll-behavior: smooth; }
@@ -113,16 +112,14 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Royal Blue Banner Background ── */
+/* ── Subtle background pattern ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(45,68,232,0.6) 0%, transparent 55%),
-    radial-gradient(ellipse at 10% 50%, rgba(0,212,255,0.12) 0%, transparent 40%),
-    radial-gradient(ellipse at 90% 80%, rgba(245,200,66,0.08) 0%, transparent 40%),
-    linear-gradient(180deg, #0a1050 0%, #050a30 60%, #03061a 100%);
+    radial-gradient(ellipse at 15% 20%, rgba(61,95,175,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(212,144,26,0.06) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -158,10 +155,10 @@ body::before {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(8,14,58,0.92);
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(100,140,255,0.2);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 12px rgba(45,74,145,0.08);
 }
 .header-inner {
   max-width: 1600px;
@@ -226,15 +223,14 @@ body::before {
   white-space: nowrap;
 }
 .btn-ghost {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(100,140,255,0.3);
-  color: rgba(200,218,255,0.9);
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
   box-shadow: var(--shadow-sm);
 }
 .btn-ghost:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: rgba(245,200,66,0.08);
+  border-color: var(--primary-light);
+  color: var(--primary);
   box-shadow: var(--shadow-md);
 }
 .btn-primary {
@@ -245,19 +241,19 @@ body::before {
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(30,48,200,0.5);
+  box-shadow: 0 8px 24px rgba(45,74,145,0.35);
   background: linear-gradient(135deg, var(--navy-500), var(--primary-light));
 }
 .btn-outline {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(100,140,255,0.25);
-  color: rgba(200,218,255,0.85);
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
   box-shadow: var(--shadow-sm);
 }
 .btn-outline:hover {
   border-color: var(--primary-light);
-  color: white;
-  background: rgba(45,68,232,0.2);
+  color: var(--primary);
+  background: var(--navy-50);
 }
 
 /* ──────────────────────────────
@@ -285,8 +281,8 @@ body::before {
   gap: 8px;
 }
 .stat-card {
-  background: rgba(13,22,100,0.7);
-  border: 1px solid rgba(100,140,255,0.25);
+  background: white;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 14px 8px;
   display: flex;
@@ -296,7 +292,6 @@ body::before {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(10px);
 }
 .stat-card::after {
   content: '';
@@ -328,12 +323,11 @@ body::before {
    CONFIG CARDS
 ────────────────────────────── */
 .config-card {
-  background: rgba(13,22,100,0.65);
-  border: 1px solid rgba(100,140,255,0.2);
+  background: white;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(12px);
 }
 .config-title {
   font-size: 0.88rem;
@@ -439,13 +433,13 @@ body::before {
 .worker-item:hover { background: var(--navy-50); }
 .worker-item.is-winner { opacity: 0.4; text-decoration: line-through; }
 .worker-mnv-tag {
-  background: rgba(45,68,232,0.25);
-  border: 1px solid rgba(100,140,255,0.4);
+  background: var(--navy-100);
+  border: 1px solid var(--navy-200);
   border-radius: var(--radius-xs);
   padding: 2px 7px;
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--cyan);
+  color: var(--primary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   letter-spacing: 0.03em;
@@ -485,15 +479,14 @@ body::before {
   align-items: center;
   gap: 24px;
   padding: 36px 24px 40px;
-  background: rgba(10,16,80,0.75);
-  border: 1px solid rgba(100,140,255,0.25);
+  background: white;
+  border: 1px solid var(--border);
   border-radius: 24px;
   position: relative;
   overflow: hidden;
   min-height: 380px;
   justify-content: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-lg);
 }
 /* Top accent line */
 .draw-stage::before {
@@ -835,8 +828,8 @@ kbd {
 .winners-scroll::-webkit-scrollbar-thumb { background: var(--navy-200); border-radius: 2px; }
 
 .winner-card {
-  background: rgba(13,22,100,0.7);
-  border: 1px solid rgba(100,140,255,0.2);
+  background: white;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   margin-bottom: 8px;
@@ -844,7 +837,6 @@ kbd {
   transition: all 0.2s;
   animation: slideIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(8px);
 }
 @keyframes slideIn {
   from { transform: translateX(30px); opacity: 0; }
@@ -1029,8 +1021,8 @@ kbd {
   gap: 16px;
   text-align: center;
   padding: 50px 120px 46px;
-  background: rgba(8,16,80,0.92);
-  border: 1.5px solid rgba(245,200,66,0.4);
+  background: white;
+  border: 1.5px solid rgba(212,144,26,0.3);
   border-radius: 28px;
   box-shadow:
     0 0 0 1px rgba(45,74,145,0.08),
@@ -1114,7 +1106,7 @@ kbd {
 .wzo-mnv-prefix {
   font-size: 1.6rem;
   font-weight: 700;
-  color: rgba(180,200,255,0.7);
+  color: var(--text-secondary);
   letter-spacing: 0.06em;
 }
 .wzo-mnv-digits {
@@ -1132,7 +1124,7 @@ kbd {
 .wzo-name {
   font-size: clamp(2.4rem, 6vw, 4.5rem);
   font-weight: 900;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1.1;
   letter-spacing: 0.02em;
   animation: wzoNameReveal 0.7s 0.55s cubic-bezier(0.22,1.5,0.36,1) both;
@@ -1153,7 +1145,7 @@ kbd {
 /* Dept (Single winner) */
 .wzo-dept {
   font-size: 1.7rem;
-  color: rgba(200,220,255,0.8);
+  color: var(--text-secondary);
   letter-spacing: 0.04em;
   animation: wzoZoomIn 0.5s 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
 }
@@ -1178,8 +1170,8 @@ kbd {
 .wzo-multi-grid::-webkit-scrollbar-thumb { background: var(--navy-300); border-radius: 3px; }
 
 .wzo-multi-card {
-  background: rgba(20,35,140,0.8);
-  border: 1px solid rgba(100,140,255,0.3);
+  background: var(--navy-50);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 20px 16px;
   display: flex;
@@ -1188,7 +1180,6 @@ kbd {
   box-shadow: var(--shadow-sm);
   animation: wzoZoomIn 0.5s both cubic-bezier(0.34,1.56,0.64,1);
   transition: transform 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(8px);
 }
 .wzo-multi-card:hover {
   transform: translateY(-2px);
@@ -1207,13 +1198,13 @@ kbd {
 .wzo-multi-name {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1.3;
 }
 
 .wzo-multi-dept {
   font-size: 1rem;
-  color: rgba(200,220,255,0.75);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
