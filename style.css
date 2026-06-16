@@ -611,6 +611,28 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   transition: opacity 0.1s;
+  /* Added for rolling animation */
+  display: inline-flex;
+  height: 1.1em;
+  line-height: 1.1;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+}
+.slot-col {
+  display: inline-flex;
+  flex-direction: column;
+}
+.slot-strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.slot-digit-item {
+  height: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .slot-machine-inner.winning .slot-digits {
   background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));

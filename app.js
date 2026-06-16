@@ -217,30 +217,53 @@ function startDraw() {
   slotGlow.classList.add('active');
   drawHint.textContent = '🎲 Đang bốc thăm...';
 
-  // Slot animation – exactly 6 seconds (120 frames × 50ms)
-  let frame = 0;
-  const totalFrames = 120; // 120 × 50ms = 6000ms
-  const spinInterval = setInterval(() => {
-    frame++;
-    // Fast 0→70%, slow-down 70→100%
-    const progress = frame / totalFrames;
-    const speed = progress < 0.70 ? 1 : Math.max(0.06, 1 - (progress - 0.70) / 0.30);
+  // Clear existing slot digits
+  slotDigits.innerHTML = '';
 
-    if (Math.random() < speed) {
-      slotDigits.textContent = String(Math.floor(Math.random() * 9999999)).padStart(7, '0');
-    }
+  const targetMNV = drawn[drawn.length - 1].mnv;
+  const cols = [];
 
-    // Tick sound-like flash at high speed phase
-    if (progress < 0.70 && frame % 4 === 0) {
-      slotDigits.style.opacity = '0.6';
-      setTimeout(() => { slotDigits.style.opacity = '1'; }, 30);
-    }
+  for (let i = 0; i < 7; i++) {
+    const col = document.createElement('div');
+    col.className = 'slot-col';
+    const strip = document.createElement('div');
+    strip.className = 'slot-strip';
 
-    if (frame >= totalFrames) {
-      clearInterval(spinInterval);
-      finalizeDraw(drawn, prizeName);
+    // Target digit is at the bottom of the strip
+    const targetDigit = parseInt(targetMNV[i], 10);
+    // Each column spins a bit more than the previous one
+    const spins = 4 + i; 
+    const totalItems = spins * 10 + targetDigit + 1;
+
+    let html = '';
+    for (let j = 0; j < totalItems; j++) {
+      html += `<div class="slot-digit-item">${j % 10}</div>`;
     }
-  }, 50);
+    strip.innerHTML = html;
+
+    // Start position at the top (0)
+    strip.style.transform = `translateY(0)`;
+
+    col.appendChild(strip);
+    slotDigits.appendChild(col);
+    cols.push({ strip, totalItems });
+  }
+
+  // Trigger animation next frame
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      cols.forEach((c, i) => {
+        const duration = 4 + i * 0.3; // 4s to 5.8s
+        c.strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.85, 0.25, 1)`;
+        c.strip.style.transform = `translateY(-${(c.totalItems - 1) * 1.1}em)`;
+      });
+    });
+  });
+
+  // Finalize after max animation duration (~6s)
+  setTimeout(() => {
+    finalizeDraw(drawn, prizeName);
+  }, 6200);
 }
 
 function finalizeDraw(drawn, prizeName) {
@@ -248,7 +271,7 @@ function finalizeDraw(drawn, prizeName) {
 
   // Show final winner (last drawn or first if only one)
   const primary = drawn[drawn.length - 1];
-  slotDigits.textContent = primary.mnv;
+  slotDigits.innerHTML = primary.mnv; // Reset back to simple text string
 
   // Register all drawn winners
   drawn.forEach((w, i) => {
