@@ -399,10 +399,10 @@ function showWinnerZoom(drawn, prizeName) {
         <img src="vincons-logo.jpg" alt="Vincons" class="wzo-logo" />
       </div>
 
-      <div class="wzo-prize-label" id="wzo-prize">${escapeHtml(prizeName)}</div>
-
-      <div class="wzo-trophy-row">
-        <span class="wzo-trophy">🏆</span>
+      <div class="wzo-prize-row" style="display: flex; align-items: center; justify-content: center; gap: 24px;">
+        <span class="wzo-trophy" style="animation-delay: 0.35s">🏆</span>
+        <div class="wzo-prize-label" id="wzo-prize">${escapeHtml(prizeName)}</div>
+        <span class="wzo-trophy" style="animation-delay: 0.5s">🏆</span>
       </div>
 
       ${winnersHtml}

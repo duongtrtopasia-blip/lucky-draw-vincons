@@ -1050,14 +1050,14 @@ kbd {
 }
 
 /* Logo */
-.wzo-logo-row { margin-bottom: 4px; }
-.wzo-content.wzo-is-multi .wzo-logo-row { margin-bottom: 0; }
+.wzo-logo-row { margin-bottom: 12px; }
+.wzo-content.wzo-is-multi .wzo-logo-row { margin-bottom: 8px; }
 .wzo-logo {
-  height: 44px;
+  height: 100px;
   object-fit: contain;
   background: white;
-  border-radius: 8px;
-  padding: 4px 10px;
+  border-radius: 16px;
+  padding: 10px 24px;
   box-shadow: var(--shadow-md), 0 0 0 1px var(--border);
 }
 
