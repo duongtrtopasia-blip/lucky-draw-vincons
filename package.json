@@ -1,0 +1,18 @@
+{
+  "name": "vincons-lucky-draw",
+  "version": "2.0.0",
+  "description": "Vincons Lucky Draw – Multi-device real-time system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.7.5",
+    "xlsx": "^0.18.5"
+  }
+}

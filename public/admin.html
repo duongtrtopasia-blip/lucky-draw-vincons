@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quay Số – Quản Trị</title>
+  <meta name="description" content="Trang quản trị hệ thống quay số trúng thưởng Vincons" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<!-- Login Overlay -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-card">
+    <img src="vincons-logo.jpg" alt="Vincons" class="login-logo" />
+    <h2 class="login-title">🔐 Đăng Nhập Quản Trị</h2>
+    <p class="login-desc">Nhập mật khẩu admin để truy cập hệ thống quay số</p>
+    <form onsubmit="handleLogin(event)">
+      <div class="login-field">
+        <input type="password" id="login-password" class="login-input" placeholder="Mật khẩu..." autofocus />
+      </div>
+      <button type="submit" class="login-btn" id="login-btn">Đăng Nhập</button>
+      <p class="login-error" id="login-error" style="display:none"></p>
+    </form>
+  </div>
+</div>
+
+<!-- Main Admin Panel -->
+<div class="admin-wrapper" id="admin-wrapper" style="display:none">
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div class="admin-logo-wrap">
+        <img src="vincons-logo.jpg" alt="Vincons" class="admin-logo-img" />
+        <div class="admin-logo-divider"></div>
+        <div class="admin-logo-text">
+          <span class="admin-logo-event">🔐 Quản Trị Quay Số</span>
+          <span class="admin-logo-sub">Giờ Gắn Kết</span>
+        </div>
+      </div>
+      <div class="admin-header-actions">
+        <button class="btn btn-ghost" onclick="document.getElementById('file-input').click()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import Excel
+        </button>
+        <button class="btn btn-primary" onclick="exportWinners()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Xuất Danh Sách
+        </button>
+        <button class="btn btn-ghost" onclick="handleLogout()">
+          🚪 Đăng xuất
+        </button>
+      </div>
+    </div>
+    <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)" />
+  </header>
+
+  <!-- Content -->
+  <main class="admin-main">
+
+    <!-- Left panel -->
+    <aside class="admin-panel admin-panel-left">
+
+      <!-- Stats -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <span class="admin-stat-value" id="admin-stat-total">0</span>
+          <span class="admin-stat-label">Tổng CN</span>
+        </div>
+        <div class="admin-stat-card stat-winners">
+          <span class="admin-stat-value" id="admin-stat-winners">0</span>
+          <span class="admin-stat-label">Đã trúng</span>
+        </div>
+        <div class="admin-stat-card stat-remain">
+          <span class="admin-stat-value" id="admin-stat-remain">0</span>
+          <span class="admin-stat-label">Còn lại</span>
+        </div>
+      </div>
+
+      <!-- Config -->
+      <div class="admin-config-card">
+        <h3 class="admin-config-title">⚙️ Cấu Hình Giải Thưởng</h3>
+        <div class="form-group">
+          <label for="prize-name">Tên giải thưởng</label>
+          <input type="text" id="prize-name" class="form-input" value="Giải Đặc Biệt" placeholder="Nhập tên giải..." />
+        </div>
+        <div class="form-group">
+          <label for="prize-count">Số lượng người trúng</label>
+          <input type="number" id="prize-count" class="form-input" value="1" min="1" max="100" />
+        </div>
+        <div class="form-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="allow-repeat" class="toggle-input" />
+            <span class="toggle-switch"></span>
+            Cho phép trúng lại
+          </label>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="updateConfig()">💾 Lưu Cấu Hình</button>
+      </div>
+
+      <!-- Manual add -->
+      <div class="admin-config-card">
+        <h3 class="admin-config-title">➕ Thêm Thủ Công</h3>
+        <div class="form-row">
+          <input type="text" id="manual-mnv" class="form-input" placeholder="MNV (7 chữ số)" maxlength="7" />
+          <input type="text" id="manual-name" class="form-input" placeholder="Họ tên" />
+        </div>
+        <button class="btn btn-outline" style="width:100%;margin-top:8px" onclick="addManual()">Thêm Công Nhân</button>
+      </div>
+
+      <!-- Worker list -->
+      <div class="admin-config-card admin-worker-list-card">
+        <div class="admin-card-header-row">
+          <h3 class="admin-config-title" style="margin-bottom:0">👥 Danh Sách CN</h3>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-clear" style="color: var(--primary)" onclick="shuffleWorkers()">🔀 Xáo trộn</button>
+            <button class="btn-clear" onclick="clearWorkers()">Xóa tất cả</button>
+          </div>
+        </div>
+        <div class="admin-worker-scroll" id="worker-list">
+          <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <p>Chưa có công nhân.<br/>Import Excel hoặc thêm thủ công.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Controls & Spin -->
+    <section class="admin-panel admin-panel-center">
+      <div class="admin-draw-stage">
+        <div class="admin-stage-header">
+          <img src="vincons-logo.jpg" alt="Vincons" class="admin-stage-logo" />
+          <div class="admin-stage-title-wrap">
+            <h1 class="admin-stage-title">CHƯƠNG TRÌNH QUAY SỐ</h1>
+            <p class="admin-stage-subtitle">GIỜ GẮN KẾT</p>
+          </div>
+        </div>
+
+        <div class="admin-prize-badge" id="admin-prize-badge">🏆 Giải Đặc Biệt</div>
+
+        <!-- Mini slot display -->
+        <div class="admin-slot-display">
+          <div class="admin-slot-label">MÃ NHÂN VIÊN</div>
+          <div class="admin-slot-digits" id="admin-slot-digits">0000000</div>
+        </div>
+
+        <!-- Winner reveal -->
+        <div class="admin-winner-reveal" id="admin-winner-reveal" style="display:none">
+          <span class="admin-winner-emoji">🏆</span>
+          <div class="admin-winner-info">
+            <div class="admin-winner-badge-label">NGƯỜI TRÚNG THƯỞNG</div>
+            <div class="admin-winner-mnv" id="admin-winner-mnv">MNV: 0000000</div>
+            <div class="admin-winner-name" id="admin-winner-name">Nguyễn Văn A</div>
+          </div>
+        </div>
+
+        <button class="admin-spin-btn" id="admin-spin-btn" onclick="adminSpin()">
+          <span class="admin-spin-icon">🎰</span>
+          <span id="admin-spin-label">QUAY SỐ</span>
+        </button>
+
+        <p class="admin-draw-hint" id="admin-draw-hint">Nhấn QUAY SỐ hoặc nhấn phím Space</p>
+      </div>
+
+      <!-- Links -->
+      <div class="admin-links">
+        <div class="admin-link-card">
+          <h4>📺 Màn Hình Chính (TV)</h4>
+          <a href="/display" target="_blank" id="display-link">/display</a>
+          <p>Mở trang này trên TV/Projector để hiển thị kết quả quay số</p>
+        </div>
+        <div class="admin-link-card">
+          <h4>📱 Điều Khiển (iPad)</h4>
+          <a href="/controller" target="_blank" id="controller-link">/controller</a>
+          <p>Mở trang này trên iPad để người chơi ấn quay số</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right panel: Winners -->
+    <aside class="admin-panel admin-panel-right">
+      <div class="admin-winners-header">
+        <h3 class="admin-panel-title">🏅 Danh Sách Trúng Thưởng</h3>
+        <span class="admin-winner-count-badge" id="admin-winner-badge">0</span>
+      </div>
+      <div class="admin-winners-scroll" id="winners-list">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <p>Chưa có người trúng thưởng.<br/>Hãy bắt đầu quay số!</p>
+        </div>
+      </div>
+      <div class="admin-winner-actions">
+        <button class="btn btn-outline" onclick="undoLastWinner()">↩ Hủy lần cuối</button>
+        <button class="btn btn-primary" onclick="exportWinners()">📋 Xuất Excel</button>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast-container"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

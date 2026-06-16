@@ -6,5 +6,10 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Node (nếu sau này thêm)
+# Node
 node_modules/
+package-lock.json
+
+# Environment & Data
+.env
+data-backup.json

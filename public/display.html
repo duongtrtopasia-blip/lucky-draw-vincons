@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quay Số Trúng Thưởng – Vincons Display</title>
+  <meta name="description" content="Màn hình hiển thị quay số trúng thưởng Vincons" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="display.css" />
+</head>
+<body>
+
+<!-- Particles background -->
+<div id="particles-container"></div>
+
+<!-- Waiting / Idle Screen -->
+<div class="display-wrapper" id="display-wrapper">
+
+  <!-- Stage -->
+  <div class="draw-stage" id="draw-stage">
+    <!-- Decorative header with logo -->
+    <div class="stage-header">
+      <img src="vincons-logo.jpg" alt="Vincons" class="stage-logo" />
+      <div class="stage-title-wrap">
+        <h1 class="stage-title">CHƯƠNG TRÌNH QUAY SỐ</h1>
+        <p class="stage-subtitle">GIỜ GẮN KẾT</p>
+      </div>
+    </div>
+
+    <div class="prize-badge" id="prize-badge">🏆 Giải Đặc Biệt</div>
+
+    <!-- Slot machine display -->
+    <div class="slot-machine">
+      <div class="slot-machine-inner" id="slot-machine-inner">
+        <div class="slot-label">MÃ NHÂN VIÊN</div>
+        <div class="slot-number">
+          <span class="slot-prefix">MNV</span>
+          <span class="slot-digits" id="slot-digits">0000000</span>
+        </div>
+        <div class="slot-line top"></div>
+        <div class="slot-line bottom"></div>
+        <div class="slot-corner tl"></div>
+        <div class="slot-corner tr"></div>
+        <div class="slot-corner bl"></div>
+        <div class="slot-corner br"></div>
+      </div>
+      <div class="slot-glow" id="slot-glow"></div>
+    </div>
+
+    <!-- Winner reveal (small card) -->
+    <div class="winner-reveal" id="winner-reveal" style="display:none">
+      <div class="winner-trophy">🏆</div>
+      <div class="winner-info">
+        <div class="winner-badge-label">NGƯỜI TRÚNG THƯỞNG</div>
+        <div class="winner-mnv" id="winner-mnv">MNV: 0000000</div>
+        <div class="winner-name" id="winner-name">Nguyễn Văn A</div>
+        <div class="winner-dept" id="winner-dept"></div>
+      </div>
+    </div>
+
+    <!-- Confetti container -->
+    <div id="confetti-container"></div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="display-status" id="display-status">
+    <span class="status-dot connected" id="status-dot"></span>
+    <span id="status-text">Đang kết nối...</span>
+  </div>
+
+  <!-- Waiting message when idle -->
+  <div class="waiting-hint" id="waiting-hint">
+    Đang chờ người chơi ấn quay số...
+  </div>
+</div>
+
+<!-- Winner Zoom Overlay (fullscreen reveal) -->
+<!-- Will be created dynamically by JS -->
+
+<!-- Toast notifications -->
+<div id="toast-container"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="display.js"></script>
+</body>
+</html>

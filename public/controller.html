@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Quay Số – Điều Khiển</title>
+  <meta name="description" content="Bảng điều khiển quay số trúng thưởng Vincons" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="controller.css" />
+</head>
+<body>
+
+<div id="particles-container"></div>
+
+<div class="controller-wrapper">
+
+  <!-- Header -->
+  <div class="ctrl-header">
+    <img src="vincons-logo.jpg" alt="Vincons" class="ctrl-logo" />
+    <div class="ctrl-title-wrap">
+      <h1 class="ctrl-title">CHƯƠNG TRÌNH QUAY SỐ</h1>
+      <p class="ctrl-subtitle">GIỜ GẮN KẾT</p>
+    </div>
+  </div>
+
+  <!-- Prize info -->
+  <div class="ctrl-prize" id="ctrl-prize">
+    <span class="ctrl-prize-icon">🏆</span>
+    <span class="ctrl-prize-name" id="ctrl-prize-name">Giải Đặc Biệt</span>
+  </div>
+
+  <!-- Stats -->
+  <div class="ctrl-stats">
+    <div class="ctrl-stat">
+      <span class="ctrl-stat-value" id="ctrl-total">0</span>
+      <span class="ctrl-stat-label">Tổng CN</span>
+    </div>
+    <div class="ctrl-stat gold">
+      <span class="ctrl-stat-value" id="ctrl-winners">0</span>
+      <span class="ctrl-stat-label">Đã trúng</span>
+    </div>
+    <div class="ctrl-stat green">
+      <span class="ctrl-stat-value" id="ctrl-remain">0</span>
+      <span class="ctrl-stat-label">Còn lại</span>
+    </div>
+  </div>
+
+  <!-- Big Spin Button -->
+  <div class="ctrl-spin-area">
+    <button class="ctrl-spin-btn" id="ctrl-spin-btn" onclick="requestSpin()">
+      <div class="ctrl-spin-ring"></div>
+      <div class="ctrl-spin-inner">
+        <span class="ctrl-spin-icon">🎰</span>
+        <span class="ctrl-spin-text" id="ctrl-spin-text">QUAY SỐ</span>
+      </div>
+    </button>
+    <p class="ctrl-spin-hint" id="ctrl-spin-hint">Chạm để bắt đầu quay số</p>
+  </div>
+
+  <!-- Last Winner Display -->
+  <div class="ctrl-last-winner" id="ctrl-last-winner" style="display:none">
+    <div class="ctrl-winner-label">🎉 NGƯỜI TRÚNG THƯỞNG</div>
+    <div class="ctrl-winner-mnv" id="ctrl-winner-mnv">MNV: 0000000</div>
+    <div class="ctrl-winner-name" id="ctrl-winner-name">Nguyễn Văn A</div>
+    <div class="ctrl-winner-dept" id="ctrl-winner-dept"></div>
+  </div>
+
+  <!-- Connection status -->
+  <div class="ctrl-status" id="ctrl-status">
+    <span class="status-dot connected" id="ctrl-status-dot"></span>
+    <span id="ctrl-status-text">Đang kết nối...</span>
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div id="toast-container"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="controller.js"></script>
+</body>
+</html>

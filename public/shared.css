@@ -1,0 +1,164 @@
+/* ===========================
+   VINCONS LUCKY DRAW – Shared CSS
+   Font-face & Variables
+   =========================== */
+
+/* ── UTM Avo @font-face ── */
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('fonts/UTMAvo.ttf') format('truetype');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('fonts/UTMAvo-Bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('fonts/UTMAvo-Italic.ttf') format('truetype');
+  font-weight: 100 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('fonts/UTMAvo-BoldItalic.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Vincons Brand Blue ── */
+  --navy-900: #1a2a6c;
+  --navy-800: #213380;
+  --navy-700: #2d4a91;
+  --navy-600: #3d5faf;
+  --navy-500: #5a7dcc;
+  --navy-400: #7a9dde;
+  --navy-300: #a0bdf0;
+  --navy-200: #c8d8f8;
+  --navy-100: #e6eeff;
+  --navy-50:  #f0f4ff;
+
+  /* ── Primary = Vincons Blue ── */
+  --primary:       #2d4a91;
+  --primary-light: #3d5faf;
+  --primary-dark:  #1a2a6c;
+  --primary-glow:  rgba(45, 74, 145, 0.2);
+
+  /* ── Gold accent ── */
+  --gold:       #d4901a;
+  --gold-light: #f0c040;
+  --gold-dark:  #a86c0e;
+  --gold-glow:  rgba(212, 144, 26, 0.25);
+  --gold-bg:    #fef9ec;
+
+  /* ── Cyan ── */
+  --cyan:      #0099cc;
+  --cyan-light: #e0f5ff;
+
+  /* ── Success ── */
+  --success:    #00875a;
+  --success-bg: #e6f7f0;
+
+  /* ── Danger ── */
+  --danger:    #c0392b;
+  --danger-bg: #fdecea;
+
+  /* ── Light surfaces ── */
+  --bg-page:     #f4f6fb;
+  --bg-card:     #ffffff;
+  --bg-card-alt: #f8faff;
+  --bg-input:    #ffffff;
+  --border:      #dde4f0;
+  --border-blue: rgba(45,74,145,0.2);
+  --border-strong: rgba(45,74,145,0.4);
+
+  /* ── Text ── */
+  --text-primary:   #0f1e45;
+  --text-secondary: #4a5f8a;
+  --text-muted:     #8a9cc0;
+
+  /* ── Glass ── */
+  --glass:        rgba(255,255,255,0.7);
+  --glass-border: rgba(45,74,145,0.12);
+
+  /* ── Misc ── */
+  --radius:    16px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
+  --shadow-sm:   0 1px 4px rgba(45,74,145,0.08);
+  --shadow-md:   0 4px 16px rgba(45,74,145,0.12);
+  --shadow-lg:   0 8px 32px rgba(45,74,145,0.16);
+  --shadow-blue: 0 4px 20px rgba(45,74,145,0.25);
+  --shadow-gold: 0 4px 20px rgba(212,144,26,0.3);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'UTM Avo', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Toast Notifications ── */
+#toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  font-size: 0.87rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  pointer-events: auto;
+  max-width: 320px;
+}
+.toast.success { border-left-color: var(--success); }
+.toast.error   { border-left-color: var(--danger); }
+.toast.info    { border-left-color: var(--gold); }
+@keyframes toastIn  { from { transform: translateX(60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
+
+/* ── Particles ── */
+#particles-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatParticle linear infinite;
+}
+@keyframes floatParticle {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
