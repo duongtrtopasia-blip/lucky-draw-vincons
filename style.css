@@ -1053,7 +1053,7 @@ kbd {
 .wzo-logo-row { margin-bottom: 12px; }
 .wzo-content.wzo-is-multi .wzo-logo-row { margin-bottom: 8px; }
 .wzo-logo {
-  height: 100px;
+  height: 160px;
   object-fit: contain;
   background: white;
   border-radius: 16px;
