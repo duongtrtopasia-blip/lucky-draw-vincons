@@ -509,22 +509,24 @@ body::before {
 /* Stage header */
 .stage-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   z-index: 1;
+  text-align: center;
 }
 .stage-logo {
-  height: 52px;
+  height: 72px;
   width: auto;
   object-fit: contain;
   background: white;
-  border-radius: 8px;
-  padding: 4px 10px;
+  border-radius: 12px;
+  padding: 6px 16px;
   box-shadow: var(--shadow-md), 0 0 0 1px var(--border);
 }
-.stage-title-wrap { display: flex; flex-direction: column; }
+.stage-title-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .stage-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 900;
   letter-spacing: 0.07em;
   background: linear-gradient(90deg, var(--primary), var(--navy-500), var(--gold));
@@ -534,10 +536,15 @@ body::before {
   line-height: 1.2;
 }
 .stage-subtitle {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.06em;
-  font-weight: 500;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  text-shadow: none;
 }
 
 /* Prize badge */
