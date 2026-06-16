@@ -174,6 +174,30 @@ function clearWorkers() {
   showToast('🗑️ Đã xóa toàn bộ danh sách', 'info');
 }
 
+// ─── SHUFFLE ────────────────────────────────────
+function shuffleWorkers() {
+  if (state.workers.length === 0) {
+    showToast('Chưa có danh sách để xáo trộn!', 'error');
+    return;
+  }
+  
+  // Fisher-Yates Shuffle
+  for (let i = state.workers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [state.workers[i], state.workers[j]] = [state.workers[j], state.workers[i]];
+  }
+  
+  const workerListEl = document.getElementById('worker-list');
+  workerListEl.style.transition = 'opacity 0.2s';
+  workerListEl.style.opacity = '0';
+  
+  setTimeout(() => {
+    renderWorkerList();
+    workerListEl.style.opacity = '1';
+    showToast('🔀 Đã xáo trộn danh sách ngẫu nhiên!', 'success');
+  }, 200);
+}
+
 // ─── VALIDATION ────────────────────────────────
 function validateMNV(mnv) { return /^\d{7}$/.test(mnv); }
 function padMNV(raw) {

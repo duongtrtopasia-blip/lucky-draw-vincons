@@ -96,7 +96,10 @@
     <div class="config-card worker-list-card">
       <div class="card-header-row">
         <h3 class="config-title" style="margin-bottom:0">👥 Danh Sách CN</h3>
-        <button class="btn-clear" onclick="clearWorkers()">Xóa tất cả</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-clear" style="color: var(--primary)" onclick="shuffleWorkers()">🔀 Xáo trộn</button>
+          <button class="btn-clear" onclick="clearWorkers()">Xóa tất cả</button>
+        </div>
       </div>
       <div class="worker-scroll" id="worker-list">
         <div class="empty-state">
