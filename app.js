@@ -365,13 +365,21 @@ function showWinnerZoom(drawn, prizeName) {
 
   let winnersHtml = '';
   if (isMulti) {
+    // Dynamic columns: cap at 5, use actual count if fewer
+    const cols = Math.min(totalCount, 5);
+    // Scale card text inversely with count – bigger when fewer winners
+    const mnvSize  = cols <= 2 ? '2.2rem' : cols === 3 ? '1.8rem' : cols === 4 ? '1.5rem' : '1.4rem';
+    const nameSize = cols <= 2 ? '2.2rem' : cols === 3 ? '1.8rem' : cols === 4 ? '1.5rem' : '1.4rem';
+    const deptSize = cols <= 2 ? '1.4rem' : cols === 3 ? '1.2rem' : cols === 4 ? '1.1rem' : '1rem';
+    const cardPad  = cols <= 2 ? '32px 24px' : cols === 3 ? '28px 20px' : '20px 16px';
+
     winnersHtml = `
-      <div class="wzo-multi-grid ${totalCount > 5 ? 'many' : ''}">
+      <div class="wzo-multi-grid ${totalCount > 5 ? 'many' : ''}" style="grid-template-columns: repeat(${cols}, 1fr); justify-items: center;">
         ${drawn.map((w, index) => `
-          <div class="wzo-multi-card" style="animation-delay: ${0.4 + index * 0.05}s">
-            <div class="wzo-multi-mnv">${w.mnv}</div>
-            <div class="wzo-multi-name">${escapeHtml(w.name)}</div>
-            ${w.dept ? `<div class="wzo-multi-dept">📌 ${escapeHtml(w.dept)}</div>` : ''}
+          <div class="wzo-multi-card" style="animation-delay: ${0.4 + index * 0.05}s; padding: ${cardPad}; width: 100%; text-align: center;">
+            <div class="wzo-multi-mnv" style="font-size: ${mnvSize};">${w.mnv}</div>
+            <div class="wzo-multi-name" style="font-size: ${nameSize};">${escapeHtml(w.name)}</div>
+            ${w.dept ? `<div class="wzo-multi-dept" style="font-size: ${deptSize};">📌 ${escapeHtml(w.dept)}</div>` : ''}
           </div>
         `).join('')}
       </div>
