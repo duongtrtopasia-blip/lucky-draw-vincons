@@ -1,0 +1,10 @@
+# System
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Node (nếu sau này thêm)
+node_modules/

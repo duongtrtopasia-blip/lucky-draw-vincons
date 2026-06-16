@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quay Số Trúng Thưởng – Vincons</title>
+  <meta name="description" content="Hệ thống quay số trúng thưởng dành cho công nhân cổ phần tại Vincons. Mã quay số MNV gồm 7 chữ số." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Particles background -->
+<div id="particles-container"></div>
+<!-- Background radial glow -->
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img src="vincons-logo.jpg" alt="Vincons Logo" class="logo-img" />
+      <div class="logo-divider"></div>
+      <div class="logo-text">
+        <span class="logo-event">🎯 Quay Số Trúng Thưởng</span>
+        <span class="logo-sub">Công Nhân Cổ Phần 2025</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="btn-import" class="btn btn-ghost" onclick="document.getElementById('file-input').click()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Import CSV
+      </button>
+      <button id="btn-export" class="btn btn-primary" onclick="exportWinners()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Xuất Danh Sách
+      </button>
+    </div>
+  </div>
+  <input type="file" id="file-input" accept=".csv,.txt" style="display:none" onchange="handleFileImport(event)" />
+</header>
+
+<!-- Main content -->
+<main class="main">
+
+  <!-- Left panel: Controls -->
+  <aside class="panel panel-left">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-label">Tổng CN</span>
+      </div>
+      <div class="stat-card stat-winners">
+        <span class="stat-value" id="stat-winners">0</span>
+        <span class="stat-label">Đã trúng</span>
+      </div>
+      <div class="stat-card stat-remain">
+        <span class="stat-value" id="stat-remain">0</span>
+        <span class="stat-label">Còn lại</span>
+      </div>
+    </div>
+
+    <!-- Config -->
+    <div class="config-card">
+      <h3 class="config-title">⚙️ Cấu Hình Giải Thưởng</h3>
+      <div class="form-group">
+        <label for="prize-name">Tên giải thưởng</label>
+        <input type="text" id="prize-name" class="form-input" value="Giải Đặc Biệt" placeholder="Nhập tên giải..."/>
+      </div>
+      <div class="form-group">
+        <label for="prize-count">Số lượng người trúng</label>
+        <input type="number" id="prize-count" class="form-input" value="1" min="1" max="100" />
+      </div>
+      <div class="form-group">
+        <label class="toggle-label">
+          <input type="checkbox" id="allow-repeat" class="toggle-input" />
+          <span class="toggle-switch"></span>
+          Cho phép trúng lại
+        </label>
+      </div>
+    </div>
+
+    <!-- Manual add -->
+    <div class="config-card">
+      <h3 class="config-title">➕ Thêm Thủ Công</h3>
+      <div class="form-row">
+        <input type="text" id="manual-mnv" class="form-input" placeholder="MNV (7 chữ số)" maxlength="7" />
+        <input type="text" id="manual-name" class="form-input" placeholder="Họ tên" />
+      </div>
+      <button class="btn btn-outline" style="width:100%;margin-top:8px" onclick="addManual()">Thêm Công Nhân</button>
+    </div>
+
+    <!-- Worker list preview -->
+    <div class="config-card worker-list-card">
+      <div class="card-header-row">
+        <h3 class="config-title" style="margin-bottom:0">👥 Danh Sách CN</h3>
+        <button class="btn-clear" onclick="clearWorkers()">Xóa tất cả</button>
+      </div>
+      <div class="worker-scroll" id="worker-list">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <p>Chưa có công nhân.<br/>Import CSV hoặc thêm thủ công.</p>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Center: Drum roll display -->
+  <section class="panel panel-center">
+
+    <div class="draw-stage">
+      <!-- Decorative header with logo -->
+      <div class="stage-header">
+        <img src="vincons-logo.jpg" alt="Vincons" class="stage-logo" />
+        <div class="stage-title-wrap">
+          <h1 class="stage-title">CHƯƠNG TRÌNH QUAY SỐ</h1>
+          <p class="stage-subtitle">Trúng Thưởng Công Nhân Cổ Phần</p>
+        </div>
+      </div>
+
+      <div class="prize-badge" id="prize-badge">🏆 Giải Đặc Biệt</div>
+
+      <!-- Slot machine display -->
+      <div class="slot-machine">
+        <div class="slot-machine-inner" id="slot-machine-inner">
+          <div class="slot-label">MÃ NHÂN VIÊN</div>
+          <div class="slot-number">
+            <span class="slot-prefix">MNV</span>
+            <span class="slot-digits" id="slot-digits">0000000</span>
+          </div>
+          <div class="slot-line top"></div>
+          <div class="slot-line bottom"></div>
+          <div class="slot-corner tl"></div>
+          <div class="slot-corner tr"></div>
+          <div class="slot-corner bl"></div>
+          <div class="slot-corner br"></div>
+        </div>
+        <div class="slot-glow" id="slot-glow"></div>
+      </div>
+
+      <!-- Winner reveal -->
+      <div class="winner-reveal" id="winner-reveal" style="display:none">
+        <div class="winner-trophy">🏆</div>
+        <div class="winner-info">
+          <div class="winner-badge-label">NGƯỜI TRÚNG THƯỞNG</div>
+          <div class="winner-mnv" id="winner-mnv">MNV: 0000000</div>
+          <div class="winner-name" id="winner-name">Nguyễn Văn A</div>
+          <div class="winner-dept" id="winner-dept"></div>
+        </div>
+      </div>
+
+      <!-- Confetti container -->
+      <div id="confetti-container"></div>
+    </div>
+
+    <!-- Spin button -->
+    <button id="btn-spin" class="btn-spin" onclick="startDraw()">
+      <span class="spin-icon">🎰</span>
+      <span id="spin-label">QUAY SỐ</span>
+    </button>
+
+    <div class="draw-hint" id="draw-hint">Nhấn QUAY SỐ hoặc phím <kbd>Space</kbd> để bắt đầu bốc thăm</div>
+
+  </section>
+
+  <!-- Right panel: Winners list -->
+  <aside class="panel panel-right">
+    <div class="winners-header">
+      <h3 class="panel-title">🏅 Danh Sách Trúng Thưởng</h3>
+      <span class="winner-count-badge" id="winner-badge">0</span>
+    </div>
+    <div class="winners-scroll" id="winners-list">
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <p>Chưa có người trúng thưởng.<br/>Hãy bắt đầu quay số!</p>
+      </div>
+    </div>
+    <div class="winner-actions">
+      <button class="btn btn-outline" onclick="undoLastWinner()" id="btn-undo">↩ Hủy lần cuối</button>
+      <button class="btn btn-primary" onclick="exportWinners()">📋 Xuất Excel</button>
+    </div>
+  </aside>
+
+</main>
+
+<!-- Toast notifications -->
+<div id="toast-container"></div>
+
+<!-- Modal: Import help -->
+<div class="modal-overlay" id="modal-overlay" style="display:none" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-logo">
+      <img src="vincons-logo.jpg" alt="Vincons" style="height:48px;object-fit:contain;" />
+    </div>
+    <h2>📂 Hướng Dẫn Import CSV</h2>
+    <p>File CSV cần có định dạng:</p>
+    <pre class="code-block">MNV,HoTen,PhongBan
+0001234,Nguyễn Văn A,Thi Công
+0005678,Trần Thị B,Kỹ Thuật</pre>
+    <ul>
+      <li>Cột <strong>MNV</strong>: 7 chữ số (bắt buộc)</li>
+      <li>Cột <strong>HoTen</strong>: Họ tên đầy đủ</li>
+      <li>Cột <strong>PhongBan</strong>: Phòng ban (tùy chọn)</li>
+      <li>Dòng đầu tiên là tiêu đề (header)</li>
+    </ul>
+    <button class="btn btn-primary" onclick="closeModal()">Đã hiểu</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
