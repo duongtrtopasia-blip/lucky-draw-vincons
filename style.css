@@ -1005,6 +1005,10 @@ kbd {
   width: 90%;
   animation: wzoCardIn 0.6s cubic-bezier(0.22, 1.5, 0.36, 1) forwards;
 }
+.wzo-content.wzo-is-multi {
+  max-width: 1000px;
+  padding: 30px 40px;
+}
 /* Top shimmer line */
 .wzo-content::before {
   content: '';
@@ -1027,6 +1031,7 @@ kbd {
 
 /* Logo */
 .wzo-logo-row { margin-bottom: 4px; }
+.wzo-content.wzo-is-multi .wzo-logo-row { margin-bottom: 0; }
 .wzo-logo {
   height: 44px;
   object-fit: contain;
@@ -1052,6 +1057,7 @@ kbd {
 
 /* Trophy */
 .wzo-trophy-row { line-height: 1; }
+.wzo-content.wzo-is-multi .wzo-trophy-row { display: none; }
 .wzo-trophy {
   font-size: 5rem;
   display: inline-block;
@@ -1063,7 +1069,7 @@ kbd {
   to   { transform: scale(1) rotate(0deg);   opacity: 1; }
 }
 
-/* MNV */
+/* MNV (Single winner) */
 .wzo-mnv {
   display: flex;
   align-items: baseline;
@@ -1087,7 +1093,7 @@ kbd {
   background-clip: text;
 }
 
-/* Winner NAME – Big zoom star */
+/* Winner NAME – Big zoom star (Single winner) */
 .wzo-name {
   font-size: clamp(1.8rem, 5vw, 3.2rem);
   font-weight: 900;
@@ -1109,7 +1115,7 @@ kbd {
   }
 }
 
-/* Dept */
+/* Dept (Single winner) */
 .wzo-dept {
   font-size: 0.95rem;
   color: var(--text-secondary);
@@ -1117,16 +1123,73 @@ kbd {
   animation: wzoZoomIn 0.5s 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
 }
 
-/* Multi-winner note */
-.wzo-multi {
-  font-size: 0.82rem;
+/* MULTI-WINNER GRID */
+.wzo-multi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 10px;
+  margin: 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--navy-300) transparent;
+}
+.wzo-multi-grid.many {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.wzo-multi-grid::-webkit-scrollbar { width: 6px; }
+.wzo-multi-grid::-webkit-scrollbar-thumb { background: var(--navy-300); border-radius: 3px; }
+
+.wzo-multi-card {
+  background: var(--navy-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  animation: wzoZoomIn 0.5s both cubic-bezier(0.34,1.56,0.64,1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.wzo-multi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.wzo-multi-mnv {
+  font-size: 1.1rem;
+  font-weight: 900;
   color: var(--primary);
-  background: var(--navy-100);
-  border: 1px solid var(--navy-200);
-  padding: 4px 16px;
-  border-radius: 100px;
-  font-weight: 600;
-  animation: wzoZoomIn 0.5s 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.wzo-multi-grid.many .wzo-multi-mnv { font-size: 1rem; }
+
+.wzo-multi-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.wzo-multi-grid.many .wzo-multi-name { font-size: 1rem; }
+
+.wzo-multi-dept {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.wzo-multi-title {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  margin-top: -8px;
+  animation: wzoZoomIn 0.5s 0.3s both cubic-bezier(0.34,1.56,0.64,1);
 }
 
 /* Congratulation text */

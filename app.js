@@ -65,22 +65,29 @@ function handleFileImport(event) {
 
   const reader = new FileReader();
   reader.onload = (e) => {
-    const text = e.target.result;
-    parseCSV(text);
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, {type: 'array'});
+      const firstSheet = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheet];
+      const json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+      parseExcel(json);
+    } catch (err) {
+      showToast('Lỗi khi đọc file Excel!', 'error');
+      console.error(err);
+    }
   };
-  reader.readAsText(file, 'UTF-8');
+  reader.readAsArrayBuffer(file);
 }
 
-function parseCSV(text) {
-  const lines = text.split(/\r?\n/).filter(l => l.trim());
-  if (lines.length < 2) {
-    showToast('File CSV rỗng hoặc không đúng định dạng!', 'error');
+function parseExcel(rows) {
+  if (!rows || rows.length < 2) {
+    showToast('File Excel rỗng hoặc không đúng định dạng!', 'error');
     return;
   }
 
-  // Detect separator
-  const sep = lines[0].includes(';') ? ';' : ',';
-  const headers = lines[0].split(sep).map(h => h.trim().toLowerCase());
+  // Lấy dòng tiêu đề (loại bỏ các cột rỗng nếu có)
+  const headers = (rows[0] || []).map(h => String(h || '').trim().toLowerCase());
 
   // Find columns (flexible matching)
   const idx = {
@@ -96,16 +103,20 @@ function parseCSV(text) {
   }
 
   let added = 0, skipped = 0;
-  for (let i = 1; i < lines.length; i++) {
-    const cols = smartSplit(lines[i], sep);
-    const mnv  = padMNV(cols[idx.mnv] || '');
+  for (let i = 1; i < rows.length; i++) {
+    const cols = rows[i] || [];
+    // Skip empty rows
+    if (cols.length === 0 || cols.every(c => !c)) continue;
+
+    const mnvRaw = String(cols[idx.mnv] || '').trim();
+    const mnv  = padMNV(mnvRaw);
     if (!mnv || !validateMNV(mnv)) { skipped++; continue; }
     if (!allowRepeatInput.checked && state.workers.find(w => w.mnv === mnv)) { skipped++; continue; }
 
     state.workers.push({
       mnv,
-      name: idx.name !== -1 ? (cols[idx.name] || '').trim() : `Công Nhân ${mnv}`,
-      dept: idx.dept !== -1 ? (cols[idx.dept] || '').trim() : '',
+      name: idx.name !== -1 ? String(cols[idx.name] || '').trim() : `Công Nhân ${mnv}`,
+      dept: idx.dept !== -1 ? String(cols[idx.dept] || '').trim() : '',
     });
     added++;
   }
@@ -121,19 +132,6 @@ function findColIdx(headers, aliases) {
     if (i !== -1) return i;
   }
   return -1;
-}
-
-function smartSplit(line, sep) {
-  // Handle quoted fields
-  const cols = [];
-  let cur = '', inQ = false;
-  for (let c of line) {
-    if (c === '"') { inQ = !inQ; continue; }
-    if (c === sep && !inQ) { cols.push(cur.trim()); cur = ''; continue; }
-    cur += c;
-  }
-  cols.push(cur.trim());
-  return cols;
 }
 
 // ─── MANUAL ADD ────────────────────────────────
@@ -289,7 +287,7 @@ function finalizeDraw(drawn, prizeName) {
   }, 3000);
 
   // 🎉 ZOOM REVEAL – fullscreen dramatic winner announcement
-  setTimeout(() => showWinnerZoom(primary, prizeName, drawn.length), 400);
+  setTimeout(() => showWinnerZoom(drawn, prizeName), 400);
 
   showToast(`🏆 ${drawn.length > 1 ? drawn.length + ' người trúng thưởng!' : primary.name + ' trúng ' + prizeName + '!'}`, 'success');
 }
@@ -310,17 +308,45 @@ function undoLastWinner() {
 }
 
 // ─── WINNER ZOOM OVERLAY ────────────────────────
-function showWinnerZoom(winner, prizeName, totalCount) {
+function showWinnerZoom(drawn, prizeName) {
   // Remove any existing overlay
   const existing = document.getElementById('winner-zoom-overlay');
   if (existing) existing.remove();
+
+  const isMulti = drawn.length > 1;
+  const totalCount = drawn.length;
+
+  let winnersHtml = '';
+  if (isMulti) {
+    winnersHtml = `
+      <div class="wzo-multi-grid ${totalCount > 5 ? 'many' : ''}">
+        ${drawn.map((w, index) => `
+          <div class="wzo-multi-card" style="animation-delay: ${0.4 + index * 0.05}s">
+            <div class="wzo-multi-mnv">${w.mnv}</div>
+            <div class="wzo-multi-name">${escapeHtml(w.name)}</div>
+            ${w.dept ? `<div class="wzo-multi-dept">📌 ${escapeHtml(w.dept)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    const winner = drawn[0];
+    winnersHtml = `
+      <div class="wzo-mnv" id="wzo-mnv">
+        <span class="wzo-mnv-prefix">MNV</span>
+        <span class="wzo-mnv-digits" id="wzo-mnv-digits">${winner.mnv}</span>
+      </div>
+      <div class="wzo-name" id="wzo-name">${escapeHtml(winner.name)}</div>
+      ${winner.dept ? `<div class="wzo-dept">📌 ${escapeHtml(winner.dept)}</div>` : ''}
+    `;
+  }
 
   const overlay = document.createElement('div');
   overlay.id = 'winner-zoom-overlay';
   overlay.innerHTML = `
     <div class="wzo-bg-glow"></div>
     <div class="wzo-particles" id="wzo-particles"></div>
-    <div class="wzo-content">
+    <div class="wzo-content ${isMulti ? 'wzo-is-multi' : ''}">
 
       <div class="wzo-logo-row">
         <img src="vincons-logo.jpg" alt="Vincons" class="wzo-logo" />
@@ -332,16 +358,9 @@ function showWinnerZoom(winner, prizeName, totalCount) {
         <span class="wzo-trophy">🏆</span>
       </div>
 
-      <div class="wzo-mnv" id="wzo-mnv">
-        <span class="wzo-mnv-prefix">MNV</span>
-        <span class="wzo-mnv-digits" id="wzo-mnv-digits">${winner.mnv}</span>
-      </div>
+      ${winnersHtml}
 
-      <div class="wzo-name" id="wzo-name">${escapeHtml(winner.name)}</div>
-
-      ${winner.dept ? `<div class="wzo-dept">📌 ${escapeHtml(winner.dept)}</div>` : ''}
-
-      ${totalCount > 1 ? `<div class="wzo-multi">Cùng ${totalCount} người trúng thưởng</div>` : ''}
+      ${isMulti ? `<div class="wzo-multi-title">Danh sách ${totalCount} người trúng giải</div>` : ''}
 
       <div class="wzo-congrats">🎉 CHÚC MỪNG TRÚNG THƯỞNG! 🎉</div>
 
@@ -365,13 +384,6 @@ function showWinnerZoom(winner, prizeName, totalCount) {
   // Launch confetti inside overlay
   launchZoomConfetti();
 
-  // Auto-close after 8 seconds
-  setTimeout(() => {
-    if (document.getElementById('winner-zoom-overlay')) {
-      overlay.classList.add('wzo-exit');
-      setTimeout(() => overlay.remove(), 600);
-    }
-  }, 8000);
 }
 
 function spawnZoomParticles() {
@@ -503,27 +515,28 @@ function exportWinners() {
     return;
   }
 
-  // Build CSV with BOM for Vietnamese UTF-8
-  const BOM = '\uFEFF';
-  const rows = [
-    ['STT', 'MNV', 'Họ Tên', 'Phòng Ban', 'Giải Thưởng', 'Thời Gian'],
-    ...state.winners.map((w, i) => [i+1, w.mnv, w.name, w.dept || '', w.prize, w.time]),
-  ];
+  try {
+    const data = state.winners.map((w, i) => ({
+      'STT': i + 1,
+      'MNV': w.mnv,
+      'Họ Tên': w.name,
+      'Phòng Ban': w.dept || '',
+      'Giải Thưởng': w.prize,
+      'Thời Gian': w.time
+    }));
 
-  const csv = BOM + rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url  = URL.createObjectURL(blob);
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "DanhSachTrungThuong");
 
-  const date = new Date().toLocaleDateString('vi-VN').replace(/\//g,'-');
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `VINCONS_TrungThuong_${date}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+    const date = new Date().toLocaleDateString('vi-VN').replace(/\//g,'-');
+    XLSX.writeFile(wb, `VINCONS_TrungThuong_${date}.xlsx`);
 
-  showToast(`📋 Đã xuất ${state.winners.length} người trúng thưởng!`, 'success');
+    showToast(`📋 Đã xuất Excel ${state.winners.length} người!`, 'success');
+  } catch (err) {
+    showToast('Có lỗi khi xuất file Excel!', 'error');
+    console.error(err);
+  }
 }
 
 // ─── MODAL ──────────────────────────────────────

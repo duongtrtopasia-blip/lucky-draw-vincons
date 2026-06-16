@@ -29,7 +29,7 @@
     <div class="header-actions">
       <button id="btn-import" class="btn btn-ghost" onclick="document.getElementById('file-input').click()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Import CSV
+        Import Excel
       </button>
       <button id="btn-export" class="btn btn-primary" onclick="exportWinners()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -37,7 +37,7 @@
       </button>
     </div>
   </div>
-  <input type="file" id="file-input" accept=".csv,.txt" style="display:none" onchange="handleFileImport(event)" />
+  <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileImport(event)" />
 </header>
 
 <!-- Main content -->
@@ -101,7 +101,7 @@
       <div class="worker-scroll" id="worker-list">
         <div class="empty-state">
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <p>Chưa có công nhân.<br/>Import CSV hoặc thêm thủ công.</p>
+          <p>Chưa có công nhân.<br/>Import Excel hoặc thêm thủ công.</p>
         </div>
       </div>
     </div>
@@ -195,11 +195,12 @@
     <div class="modal-logo">
       <img src="vincons-logo.jpg" alt="Vincons" style="height:48px;object-fit:contain;" />
     </div>
-    <h2>📂 Hướng Dẫn Import CSV</h2>
-    <p>File CSV cần có định dạng:</p>
-    <pre class="code-block">MNV,HoTen,PhongBan
-0001234,Nguyễn Văn A,Thi Công
-0005678,Trần Thị B,Kỹ Thuật</pre>
+    <h2>📂 Hướng Dẫn Import Excel</h2>
+    <p>File Excel (.xlsx) cần có định dạng các cột (dòng 1 là tiêu đề):</p>
+    <pre class="code-block">| MNV     | HoTen        | PhongBan   |
+|---------|--------------|------------|
+| 0001234 | Nguyễn Văn A | Thi Công   |
+| 0005678 | Trần Thị B   | Kỹ Thuật   |</pre>
     <ul>
       <li>Cột <strong>MNV</strong>: 7 chữ số (bắt buộc)</li>
       <li>Cột <strong>HoTen</strong>: Họ tên đầy đủ</li>
@@ -210,6 +211,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
