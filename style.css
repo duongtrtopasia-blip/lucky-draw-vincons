@@ -1013,7 +1013,7 @@ kbd {
   align-items: center;
   gap: 16px;
   text-align: center;
-  padding: 40px 60px 36px;
+  padding: 50px 80px 46px;
   background: white;
   border: 1.5px solid rgba(212,144,26,0.3);
   border-radius: 28px;
@@ -1021,7 +1021,7 @@ kbd {
     0 0 0 1px rgba(45,74,145,0.08),
     0 8px 40px rgba(45,74,145,0.2),
     0 40px 100px rgba(15,30,69,0.25);
-  max-width: 600px;
+  max-width: 800px;
   width: 90%;
   animation: wzoCardIn 0.6s cubic-bezier(0.22, 1.5, 0.36, 1) forwards;
 }
@@ -1066,9 +1066,9 @@ kbd {
   display: inline-block;
   background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
   color: white;
-  padding: 6px 24px;
+  padding: 8px 32px;
   border-radius: 100px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   box-shadow: var(--shadow-gold);
@@ -1079,7 +1079,7 @@ kbd {
 .wzo-trophy-row { line-height: 1; }
 .wzo-content.wzo-is-multi .wzo-trophy-row { display: none; }
 .wzo-trophy {
-  font-size: 5rem;
+  font-size: 6.5rem;
   display: inline-block;
   animation: wzoTrophyBounce 0.7s 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
   filter: drop-shadow(0 4px 12px rgba(212,144,26,0.4));
@@ -1097,13 +1097,13 @@ kbd {
   animation: wzoZoomIn 0.5s 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
 }
 .wzo-mnv-prefix {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--text-secondary);
   letter-spacing: 0.06em;
 }
 .wzo-mnv-digits {
-  font-size: 2.8rem;
+  font-size: 4rem;
   font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.12em;
@@ -1115,7 +1115,7 @@ kbd {
 
 /* Winner NAME – Big zoom star (Single winner) */
 .wzo-name {
-  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
   font-weight: 900;
   color: var(--text-primary);
   line-height: 1.1;
@@ -1137,7 +1137,7 @@ kbd {
 
 /* Dept (Single winner) */
 .wzo-dept {
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   color: var(--text-secondary);
   letter-spacing: 0.04em;
   animation: wzoZoomIn 0.5s 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
