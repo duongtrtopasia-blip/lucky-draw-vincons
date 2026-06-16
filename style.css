@@ -606,22 +606,19 @@ body::before {
   font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.1em;
-  background: linear-gradient(135deg, var(--primary), var(--navy-500), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
   transition: opacity 0.1s;
-  /* Added for rolling animation */
-  display: inline-flex;
+}
+.slot-col {
+  display: inline-block;
   height: 1.1em;
-  line-height: 1.1;
   overflow: hidden;
   position: relative;
   vertical-align: bottom;
+  margin-right: 0.1em;
 }
-.slot-col {
-  display: inline-flex;
-  flex-direction: column;
+.slot-col:last-child {
+  margin-right: 0;
 }
 .slot-strip {
   display: flex;
@@ -630,6 +627,7 @@ body::before {
 }
 .slot-digit-item {
   height: 1.1em;
+  line-height: 1.1;
   display: flex;
   align-items: center;
   justify-content: center;
