@@ -1029,8 +1029,8 @@ kbd {
   gap: 16px;
   text-align: center;
   padding: 50px 120px 46px;
-  background: white;
-  border: 1.5px solid rgba(212,144,26,0.3);
+  background: rgba(8,16,80,0.92);
+  border: 1.5px solid rgba(245,200,66,0.4);
   border-radius: 28px;
   box-shadow:
     0 0 0 1px rgba(45,74,145,0.08),
@@ -1114,7 +1114,7 @@ kbd {
 .wzo-mnv-prefix {
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--text-secondary);
+  color: rgba(180,200,255,0.7);
   letter-spacing: 0.06em;
 }
 .wzo-mnv-digits {
@@ -1132,7 +1132,7 @@ kbd {
 .wzo-name {
   font-size: clamp(2.4rem, 6vw, 4.5rem);
   font-weight: 900;
-  color: var(--text-primary);
+  color: #ffffff;
   line-height: 1.1;
   letter-spacing: 0.02em;
   animation: wzoNameReveal 0.7s 0.55s cubic-bezier(0.22,1.5,0.36,1) both;
@@ -1153,7 +1153,7 @@ kbd {
 /* Dept (Single winner) */
 .wzo-dept {
   font-size: 1.7rem;
-  color: var(--text-secondary);
+  color: rgba(200,220,255,0.8);
   letter-spacing: 0.04em;
   animation: wzoZoomIn 0.5s 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
 }
@@ -1178,8 +1178,8 @@ kbd {
 .wzo-multi-grid::-webkit-scrollbar-thumb { background: var(--navy-300); border-radius: 3px; }
 
 .wzo-multi-card {
-  background: var(--navy-50);
-  border: 1px solid var(--border);
+  background: rgba(20,35,140,0.8);
+  border: 1px solid rgba(100,140,255,0.3);
   border-radius: var(--radius-md);
   padding: 20px 16px;
   display: flex;
@@ -1188,6 +1188,7 @@ kbd {
   box-shadow: var(--shadow-sm);
   animation: wzoZoomIn 0.5s both cubic-bezier(0.34,1.56,0.64,1);
   transition: transform 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(8px);
 }
 .wzo-multi-card:hover {
   transform: translateY(-2px);
@@ -1206,13 +1207,13 @@ kbd {
 .wzo-multi-name {
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #ffffff;
   line-height: 1.3;
 }
 
 .wzo-multi-dept {
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: rgba(200,220,255,0.75);
   font-weight: 500;
 }
 
