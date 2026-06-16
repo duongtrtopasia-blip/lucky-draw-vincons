@@ -93,7 +93,7 @@ function parseExcel(rows) {
   const idx = {
     mnv:  findColIdx(headers, ['mnv','mã nv','ma nv','employee id','employeeid','id']),
     name: findColIdx(headers, ['hoten','họ tên','ho ten','name','fullname','tên']),
-    dept: findColIdx(headers, ['phongban','phòng ban','phong ban','department','dept','bộ phận']),
+    dept: findColIdx(headers, ['todoi','tổ đội','to doi','phongban','phòng ban','phong ban','department','dept','bộ phận']),
   };
 
   if (idx.mnv === -1) {
@@ -520,7 +520,7 @@ function exportWinners() {
       'STT': i + 1,
       'MNV': w.mnv,
       'Họ Tên': w.name,
-      'Phòng Ban': w.dept || '',
+      'Tổ Đội': w.dept || '',
       'Giải Thưởng': w.prize,
       'Thời Gian': w.time
     }));
