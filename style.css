@@ -1013,7 +1013,7 @@ kbd {
   align-items: center;
   gap: 16px;
   text-align: center;
-  padding: 50px 80px 46px;
+  padding: 50px 120px 46px;
   background: white;
   border: 1.5px solid rgba(212,144,26,0.3);
   border-radius: 28px;
@@ -1021,13 +1021,13 @@ kbd {
     0 0 0 1px rgba(45,74,145,0.08),
     0 8px 40px rgba(45,74,145,0.2),
     0 40px 100px rgba(15,30,69,0.25);
-  max-width: 800px;
-  width: 90%;
+  max-width: 1100px;
+  width: 95%;
   animation: wzoCardIn 0.6s cubic-bezier(0.22, 1.5, 0.36, 1) forwards;
 }
 .wzo-content.wzo-is-multi {
-  max-width: 1000px;
-  padding: 30px 40px;
+  max-width: 1400px;
+  padding: 40px 60px;
 }
 /* Top shimmer line */
 .wzo-content::before {
