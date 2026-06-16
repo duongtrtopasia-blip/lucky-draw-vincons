@@ -604,6 +604,26 @@ function showToast(msg, type = 'info') {
   setTimeout(() => toast.remove(), 3200);
 }
 
+// ─── FULLSCREEN ─────────────────────────────────
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      showToast(`Lỗi không thể mở toàn màn hình: ${err.message}`, 'error');
+    });
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  const isFs = !!document.fullscreenElement;
+  document.getElementById('icon-fs-enter').style.display = isFs ? 'none' : 'block';
+  document.getElementById('icon-fs-exit').style.display = isFs ? 'block' : 'none';
+  document.getElementById('btn-fullscreen').title = isFs ? 'Thu nhỏ' : 'Toàn màn hình';
+});
+
 // ─── UTILS ──────────────────────────────────────
 function escapeHtml(str) {
   return String(str)
